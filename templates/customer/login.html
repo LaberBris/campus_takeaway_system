@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Tittle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+
+
+</head>
+
+<body>
+{% block content %}
+<div class="container">
+    {{ error }}
+    <form class="form-login" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <h2 class="form-login-heading">登录</h2>
+        <label for="inputUsername">
+        </label><input type="text" name="username" id="username" class="form-control" placeholder="用户名">
+        <label for="inputPassword">
+        </label><input type="password" name="password" id="inputPassword" class="form-control" placeholder="密码">
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> 记住账号密码
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+
+    </form>
+
+</div> <!-- /container -->
+{% endblock %}
+</body>
+</html>

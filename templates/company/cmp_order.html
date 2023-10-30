@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    点餐
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css">
+
+{% endblock %}
+
+{% block content %}
+    <div class=" container  ">
+        <div class="loginform center-block ">
+            <h3>订单管理</h3>
+            {{ error }}
+
+            <table class="table  table-bordered">
+                <caption></caption>
+                <thead>
+
+                </thead>
+                <tbody>
+                <tr>
+                    <td>订单编号</td>
+                    <td>订单内容</td>
+                    <td>总金额</td>
+                    <td>下单时间</td>
+                    <td>接单按钮</td>
+                </tr>
+                {% if orders %}
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.od_id }} </td>
+                            <td>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>菜品名称</th>
+                                        <th>商铺名称</th>
+                                        <th>菜品单价</th>
+                                        <th>下单数量</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for dish in dishes %}
+                                        {% if dish.od_id == order.od_id %}
+                                            <tr>
+                                                <td>{{ dish.dish.dish_name }}</td>
+                                                <td>{{ dish.dish.st.st_name }}</td>
+                                                <td>{{ dish.dish.dish_price }}</td>
+                                                <td>{{ dish.oder_dish_amount }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>{{ order.od_money }} </td>
+                            <td>{{ order.od_time }} </td>
+                            <td>
+                                <form class="form-group" method="post" action="{% url 'cmp_order' %}">
+                                    {% csrf_token %}
+                                    <select name="order_id" class="hidden">
+                                        <option>{{ order.od_id }}</option>
+                                    </select>
+                                    <button> 接单 </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+{% endblock %}

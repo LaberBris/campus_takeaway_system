@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}点餐{% endblock %}
+{% block css %}
+<link href="../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+    {% if message %}
+              <div class="alert alert-warning"><span class="">{{ message }}</span></div>
+           {% endif %}
+
+{% endblock %}

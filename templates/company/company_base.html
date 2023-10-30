@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}点餐{% endblock %}
+{% block css %}<link href="{% static 'css/login.css' %}" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container formback">
+    <div class="loginform center-block jumbotron">
+         {% if message %}
+              <div class="alert alert-warning">{{ message }}</div>
+           {% endif %}
+            <div class=" " style="margin-bottom: 40px;">商户:{{ cmpname }}您好!</div>
+             {% csrf_token %}
+            <ul class="nav  nav-pills pull-right nav-justified">
+
+            <li class="nav-item">
+              <a class="nav-link active" href="/company/order/">订单管理</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/company/dish/">菜品管理</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/company/store/">商铺管理</a>
+            </li>
+          </ul>
+            <br>
+    </div>
+
+</div>
+
+{% endblock %}

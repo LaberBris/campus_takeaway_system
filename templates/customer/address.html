@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>修改顾客信息</h1>
+    <p>账号: {{ user.username }}</p>
+    {% block content %}
+    <form action="{% url 'address' %}" method="post">
+        {% csrf_token %}
+        <label for="username">用户名</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="{{ username }}">
+        <label for="phone">电话号码</label>
+        <input type="text" name="phone" id="phone" class="form-control" placeholder="{{ phone }}">
+        <label for="address">地址</label>
+        <input type="text" name="address" id="address" class="form-control" placeholder="{{ address }}">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+
+    </form>
+    {% endblock %}
+</body>
+</html>
