@@ -26,49 +26,69 @@
                     <td>订单编号</td>
                     <td>订单内容</td>
                     <td>总金额</td>
+                    <td>顾客地址</td>
+                    <td>顾客联系方式</td>
                     <td>下单时间</td>
-                    <td>接单按钮</td>
+                    <td>订单完成按钮</td>
+                    <td>用户评价</td>
                 </tr>
                 {% if orders %}
                     {% for order in orders %}
-                        <tr>
-                            <td>{{ order.od_id }} </td>
-                            <td>
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>菜品名称</th>
-                                        <th>商铺名称</th>
-                                        <th>菜品单价</th>
-                                        <th>下单数量</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for dish in dishes %}
-                                        {% if dish.od_id == order.od_id %}
-                                            <tr>
-                                                <td>{{ dish.dish.dish_name }}</td>
-                                                <td>{{ dish.dish.st.st_name }}</td>
-                                                <td>{{ dish.dish.dish_price }}</td>
-                                                <td>{{ dish.oder_dish_amount }}</td>
-                                            </tr>
+                        {% if order.od_state == 0 %}
+                            <tr>
+                                <td>{{ order.od_id }} </td>
+                                <td>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>菜品名称</th>
+                                            <th>商铺名称</th>
+                                            <th>菜品单价</th>
+                                            <th>下单数量</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for dish in dishes %}
+                                            {% if dish.od_id == order.od_id %}
+                                                <tr>
+                                                    <td>{{ dish.dish.dish_name }}</td>
+                                                    <td>{{ dish.dish.st.st_name }}</td>
+                                                    <td>{{ dish.dish.dish_price }}</td>
+                                                    <td>{{ dish.oder_dish_amount }}</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>{{ order.od_money }} </td>
+                                <td>{% for address in addresses %}
+                                    {% if address.cus.cus_id == order.cus.cus_id %}
+                                        {{ address.address }}
+                                    {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ order.cus.cus_phone }} </td>
+                                <td>{{ order.od_time }} </td>
+                                <td>
+                                    <form class="form-group" method="post" action="{% url 'cmp_order' %}">
+                                        {% csrf_token %}
+                                        <select name="order_id" class="hidden">
+                                            <option>{{ order.od_id }}</option>
+                                        </select>
+                                        <button> 完成订单 </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    {% for comment in comments %}
+                                        {% if comment.od_id == order.od_id %}
+
+                                            <p>{{ comment.cmt_star }}星:{{ comment.cmt_content }}</p>
                                         {% endif %}
                                     {% endfor %}
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td>{{ order.od_money }} </td>
-                            <td>{{ order.od_time }} </td>
-                            <td>
-                                <form class="form-group" method="post" action="{% url 'cmp_order' %}">
-                                    {% csrf_token %}
-                                    <select name="order_id" class="hidden">
-                                        <option>{{ order.od_id }}</option>
-                                    </select>
-                                    <button> 接单 </button>
-                                </form>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
                 </tbody>

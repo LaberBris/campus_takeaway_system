@@ -20,80 +20,74 @@
 
     <link rel="stylesheet" href="/static/css/masters.css">
 
-    	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
-<style>
-<!--   body {-->
-<!--  height: 1000px;-->
-<!--  background-image: url({% static 'image/1.jpg'%});-->
-<!--  background-repeat: no-repeat;-->
-<!--  background-size: cover;-->
-<!--  background-position: center 0;-->
-<!--  background-repeat: no-repeat;-->
-<!--  background-attachment: fixed;-->
-<!--  -webkit-background-size: cover;-->
-<!--  -o-background-size: cover;-->
-<!--  -moz-background-size: cover;-->
-<!--  -ms-background-size: cover;-->
-<!--}-->
+<style>body {
+    height: 1000px;
+    background-color: #eae5fe;
+    background-image: url({% static 'image/5.png'%});
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 300px;
+}
 </style>
 
 <body>
 <br>
-<nav >
+<nav>
     <div class="container ">
         <ul class="nav  nav-pills pull-right nav-justified">
             <li class="nav-item">
-              <a class="nav-link active" href="/customer/dish/">菜品列表</a>
+                <a class="nav-link active" href="/customer/dish/">菜品列表</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/customer/comment/">订单</a>
+                <a class="nav-link active" href="/customer/comment/">订单</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/customer/address/">修改地址信息</a>
+                <a class="nav-link active" href="/customer/address/">修改地址信息</a>
             </li>
 
             {% if request.session.is_login %}
-            <li class="nav-item">
-              <a class="nav-link active "  href="/customer/logout"  >登出</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active "  href="/company/"  >商家管理</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link  active"  href="#"  >欢迎:{{ request.session.usr_acc }}</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link active " href="/customer/logout">登出</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active " href="/company/">商家管理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  active" href="#">欢迎:{{ request.session.usr_acc }}</a>
+                </li>
 
             {% else %}
-             <li class="nav-item">
-              <a class="nav-link active " href="/admin/"  >管理员登录</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link  active" href="/customer/login/"  >登录</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link  active" href="/customer/signup/" >注册</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link active " href="/admin/">管理员登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  active" href="/customer/login/">登录</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  active" href="/customer/signup/">注册</a>
+                </li>
 
             {% endif %}
-          </ul>
+        </ul>
 
     </div>
 </nav>
-    <br>
+<br>
 <div class="messages">
     {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {% endfor %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
     {% endif %}
 </div>
 
@@ -107,29 +101,33 @@
 <div class="container">
 
 
-    <div class = "container dish">
-       {% if dishs %}
-        {% for dish in dishs %}
-    <form  method="post" action="/order/ass/">
-         {% csrf_token %}
-        <select class="hidden" name="ass_dish_id"><option>{{dish.dish_id}}</option></select>
-        <button type="submit" class="btn btn-info pull-right" >查看评价</button>
+    <div class="container dish">
+        {% if dishs %}
+            {% for dish in dishs %}
+                <form method="post" action="/order/ass/">
+                    {% csrf_token %}
+                    <select class="hidden" name="ass_dish_id">
+                        <option>{{ dish.dish_id }}</option>
+                    </select>
+                    <button type="submit" class="btn btn-info pull-right">查看评价</button>
 
-    </form>
-    <form class='form-group ' action="/order/" method="post">
-          {% csrf_token %}
-    <div class="panel panel-info">
-	<div class="panel-heading">
-        <span class="panel-title" >{{dish.dish_id}}</span>
-        <select name="dish_id" class="panel-title hidden"> <option>{{dish.dish_id}}</option></select>
-		<span class="panel-title" >{{dish.dish_name}}</span>
-	</div>
+                </form>
+                <form class='form-group ' action="/order/" method="post">
+                    {% csrf_token %}
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <span class="panel-title">{{ dish.dish_id }}</span>
+                            <select name="dish_id" class="panel-title hidden">
+                                <option>{{ dish.dish_id }}</option>
+                            </select>
+                            <span class="panel-title">{{ dish.dish_name }}</span>
+                        </div>
 
-    </div>
-    </form>
+                    </div>
+                </form>
 
-    {% endfor %}
-    {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
 
 

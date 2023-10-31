@@ -2,7 +2,7 @@ import base64
 
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Company, Store, UserInfo, Dish, Orders, DishAmount
+from .models import Company, Store, UserInfo, Dish, Orders, DishAmount, Comment, Address
 
 
 def cmp_manage(request):
@@ -98,7 +98,9 @@ def cmp_order(request):
         dishamount = DishAmount.objects.filter(dish_id__in=dishes)
         # 创建一个上下文对象orders,将dishamount中含有的所有dish_id填入
         orders = Orders.objects.filter(od_id__in=dishamount)
-        print("**************", dishamount)
+        comments = Comment.objects.filter(od_id__in=orders)
+        customers = orders.values_list('cus_id', flat=True)
+        addresses = Address.objects.filter(cus_id__in=customers)
 
     if request.method == 'POST':
         # 处理接单
@@ -108,6 +110,7 @@ def cmp_order(request):
             order.od_state = 1
             order.save()
 
-    return render(request, 'company/cmp_order.html', {'dishes': dishamount, 'orders': orders, 'dish_list': dishes})
+    return render(request, 'company/cmp_order.html',
+                  {'dishes': dishamount, 'orders': orders, 'dish_list': dishes, 'comments': comments, 'addresses': addresses})
 
 

@@ -23,12 +23,13 @@ def dish(request):
         print("[DEBUG][POST][STATE]:order:{}".format(order))
 
         for dish in dishes:  # 假设这里是您的菜品列表
-            dish_id = dish.dish_id
-            dish_price = dish.dish_price
-            dish_num = request.POST.get('dish_num_' + str(dish_id))
+            if int(request.POST.get('dish_num_' + str(dish.dish_id))) > 0:
+                dish_id = dish.dish_id
+                dish_price = dish.dish_price
+                dish_num = request.POST.get('dish_num_' + str(dish_id))
 
-            money += dish_price * int(dish_num)
-            DishAmount.objects.create(od=order, dish=dish, oder_dish_amount=dish_num)
+                money += dish_price * int(dish_num)
+                DishAmount.objects.create(od=order, dish=dish, oder_dish_amount=dish_num)
 
         order.od_money = round(money, 2)
         order.save()
@@ -68,7 +69,7 @@ def cus_comment(request):
         comment_content = request.POST['comment_content']
         order = Orders.objects.get(od_id=comment_order)
         dishes = DishAmount.objects.filter(od=order)
-        store = dishes.last().dish.store
+        store = dishes.last().dish.st
         Comment.objects.create(od=order, st=store, cmt_star=comment_star, cmt_content=comment_content)
 
         return render(request, 'customer/comment.html', locals())
